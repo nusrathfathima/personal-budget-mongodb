@@ -11,9 +11,12 @@ router.post("/add", (req, res) => {
   });
   budget.save().then((data) => {
     if (!data) {
-      return res.status(400).send("Unable To Add New Budget Document");
+      res.status(400).send("Unable To Add New Budget Document");
     }
-    return res.json(data);
+    res.json(data);
+  })
+  .catch((err)=>{
+    res.send(err)
   });
 });
 
@@ -21,10 +24,10 @@ router.post("/add", (req, res) => {
 router.get("/fetch", (req, res) => {
     BudgetSchema.find().exec((err, data) => {
     if (err) {
-      return res.status(400).send("Unable To Fetch Budget Documents");
+      res.status(400).send("Unable To Fetch Budget Documents");
     }
-    return res.json(data);
-  });
+    res.json(data);
+  })
 });
 
 module.exports = router;
