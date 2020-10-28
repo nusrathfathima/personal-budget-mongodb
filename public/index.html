@@ -154,20 +154,10 @@
               datasets: [
                   {
                       data: [],
-                      backgroundColor: [
-                          '#ffcd56',
-                          '#ff6384',
-                          '#36a2eb',
-                          '#fd6b19',
-                          'rgba(153, 102, 255, 1)',
-                          'rgba(255, 159, 64, 1)',
-                          'rgba(75, 192, 192, 1)',
-                      ],
+                      backgroundColor: [],
                   }
               ],
-              labels: [
-                  
-              ]
+              labels: []
           }; 
             /* Creating Pie Chart */
           function createChart() {
@@ -179,12 +169,12 @@
           }
           
           function getBudget() {
-              axios.get('http://localhost:3000/budget')
+              axios.get('/budget/fetch')
               .then(function (res) {
-                  console.log(res);
-                  for (var i = 0; i<res.data.myBudget.length; i++) {
-                      dataSource.datasets[0].data[i] = res.data.myBudget[i].budget;
-                      dataSource.labels[i] = res.data.myBudget[i].title;
+                  for (var i = 0; i<res.data.length; i++) {
+                      dataSource.datasets[0].data[i] = res.data[i].budget;
+                      dataSource.datasets[0].backgroundColor[i] = res.data[i].color;
+                      dataSource.labels[i] = res.data[i].title;
                   }
                   createChart();
                   createD3Chart(myBudgetData());   // Calling function createD3Chart();

@@ -1,17 +1,27 @@
-//Budget API
 const express = require('express');
-const cors = require('cors');
 const app = express();
 const port = 3000;
+const mongoose = require("mongoose");
+const budget = require("./routes/budget_routes");
 
-app.use(cors());
+let url = 'mongodb://localhost:27017/budget_db';
 
-const budget = require('./myBudget.json');
+mongoose
+  .connect(url, {useNewUrlParser: true, useUnifiedTopology: true})
+    .then(() => {
+        console.log("Connected to Database");
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 
-app.get('/budget', (req, res) => {
-    res.json(budget);
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use("/", express.static("public"));
+
+app.use("/budget", budget);
 
 app.listen(port, () => {
     console.log(`API served at http://localhost:${port}`);
-    });
+});
